@@ -1,0 +1,13 @@
+#Tabs 
+screen -t bash1
+screen -t zsh1
+screen -t bash2
+screen -t zsh2
+
+#navigation 
+bind ',' prev
+bind '.' next
+
+hardstatus alwayslastline #if hardstatus is not availible, use the last line. 
+# hardstatus string
+hardstatus string '%D | %C%A | %n%t'
