@@ -19,3 +19,20 @@ setopt autocd extendedglob
 unsetopt appendhistory
 bindkey -v
 # End of lines configured by zsh-newuser-install
+# ls colors
+export CLICOLOR=1 
+
+# Prompt 
+P="|%1~ ∴ "
+
+# Display vim mode
+function zle-keymap-select zle-line-init {
+  VIM_PROMPT="${${KEYMAP/vicmd/normal}/(main|viins)/insert}"
+  PROMPT="$VIM_PROMPT$P"
+  zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+alias rz='. ~/.zshrc'
