@@ -1,1 +1,0 @@
-/Users/scolsen/.bash_profile
