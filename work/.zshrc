@@ -22,6 +22,9 @@ bindkey -v
 # ls colors
 export CLICOLOR=1 
 
+# Support 256 colors
+TERM=xterm-256color
+
 # Prompt 
 P="|%1~ ∴ "
 
@@ -38,3 +41,7 @@ zle -N zle-keymap-select
 alias rz='. ~/.zshrc'
 alias cygh='/cygdrive/c/Users/scolsen'
 alias ls='ls --color'
+alias tmux='tmux -2'
+
+alias gs='git status'
+alias gc='git commit'
