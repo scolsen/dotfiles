@@ -22,6 +22,9 @@ bindkey -v
 # ls colors
 export CLICOLOR=1 
 
+# 256 color support
+TERM=xterm-256color
+
 # Prompt 
 P="|%1~ ∴ "
 
@@ -36,3 +39,7 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 alias rz='. ~/.zshrc'
+alias whc='which'
+
+alias gs='git status'
+alias gc='git commit -m'
