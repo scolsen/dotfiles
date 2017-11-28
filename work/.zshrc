@@ -42,6 +42,7 @@ alias rz='. ~/.zshrc'
 alias cygh='/cygdrive/c/Users/scolsen'
 alias ls='ls --color'
 alias tmux='tmux -2'
+alias pgrep='ps | grep'
 
 alias gs='git status'
 alias gc='git commit'
