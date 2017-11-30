@@ -16,6 +16,9 @@ nmap <leader>so :source $MYVIMRC
 nmap <leader>n :set number!
 nmap k gk
 nmap j gj
+" copy up to and including next period. Use this instead of ). ) includes a
+" whitespace after the next period.
+nmap ys yf.
 " hotkey toggle tab expansion for files that require spaces and files that require tabs.
 nmap <leader>t :set expandtab!
 
@@ -27,6 +30,8 @@ imap <expr> ;p getreg('')
 " vmap
 vmap fj <esc>
 vmap <leader> $
+" Jump to end of sentence.
+vmap s /\./e<CR>
 
 " sets a new command Q to just q.
 command! Q q
