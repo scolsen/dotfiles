@@ -1,9 +1,6 @@
 " color
 color zellsen
 
-" set right margin to 78
-" set textwidth=78
-
 " leader must be typed before executing personal commands.
 let mapleader = " "
 
@@ -33,6 +30,29 @@ vmap <leader> $
 " Jump to end of sentence.
 vmap s /\./e<CR>
 
+" vim markdown mappings.
+
+" normal mode
+nmap * i*<esc>ea*<esc>
+nmap _ i_<esc>ea_<esc>
+nmap ` i`<esc>ea`<esc>
+nmap [ i[<esc>ea]()<esc>
+nmap > 0i> <esc>
+nmap ;- i---<CR><CR>---<esc>ki
+nmap ;y ;-
+nmap ;1 i#<space>
+nmap ;2 i##<space>
+nmap ;3 i###<space>
+nmap ;4 i####<space>
+nmap ;5 i#####<space>
+nmap ;6 i######<space>
+
+" visual mode
+vmap * c*<C-R>"*<esc>
+vmap _ c_<C-R>"_<esc>
+vmap ` c`<C-R>"`<esc>
+vmap [ c[<C-R>"]()<esc>
+
 " sets a new command Q to just q.
 command! Q q
 
@@ -43,6 +63,7 @@ command! W w
 iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
 iab rby #!/usr/bin/env<SPACE>ruby
 iab nde #!/usr/bin/env<SPACE>node
+iab bsh #!/usr/bin/bash
 
 " Set Tabs to spaces
 set tabstop=2
@@ -51,19 +72,11 @@ set softtabstop=2
 set shiftwidth=4
 set shiftround
 
+set wrap
+set linebreak
+set columns=80
+
 " netrw browser customization
-let g:netrw_browse_split = 2
+" let g:netrw_browse_split = 2
 let g:netrw_liststyle = 3
 let g:netrw_winsize = 25
-
-" Create new sh files with sh.stub
-:au BufNewFile *.sh r ~/.vim/templates/%:e.stub
-
-" Create new js files with js.stub
-:au BufNewFile *.js r ~/.vim/templates/%:e.stub
-
-" Create new man pages with man.stub
-:au BufNewFile *.[1-9] r ~/.vim/templates/%:e.stub
-
-" Create new notes with notes.stub
-:au BufNewFile *-notes.md r ~/.vim/templates/notes.stub
