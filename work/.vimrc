@@ -48,10 +48,18 @@ nmap ;5 i#####<space>
 nmap ;6 i######<space>
 
 " visual mode
-vmap * c*<C-R>"*<esc>
-vmap _ c_<C-R>"_<esc>
-vmap ` c`<C-R>"`<esc>
-vmap [ c[<C-R>"]()<esc>
+" vmap * c*<C-R>"*<esc>
+vnoremap * <esc>`>a*<esc>`<i*<esc>gv2l
+vnoremap _ <esc>`>a_<esc>`<i_<esc>gv2l
+vnoremap ` <esc>`>a`<esc>`<i`<esc>gv2l
+vnoremap [ <esc>`>a]()<esc>`<i[<esc>gv2l
+
+"Autocmds for md
+" convert mds to rtf
+augroup markdown
+  autocmd!
+  autocmd BufWritePost *.md !pandoc -s <afile> -o <afile>:t:r.rtf
+augroup END
 
 " sets a new command Q to just q.
 command! Q q
