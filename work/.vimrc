@@ -55,10 +55,25 @@ vnoremap ` <esc>`>a`<esc>`<i`<esc>gv2l
 vnoremap [ <esc>`>a]()<esc>`<i[<esc>gv2l
 
 "Autocmds for md
+function! s:pan()
+  let result=search('pandocTargets:')
+  if result > 0  
+    let line=getline(result)
+    let targets = split(line)[1:]
+  else 
+    echom "No pandocTargets: YAML front matter found."
+    return 1
+  endif
+  echom "Converting to: " . join(targets, ', ')
+  for target in targets
+    execute '!pandoc -s <afile> -o <afile>:t:r.' . target
+  endfor
+endfunction
+
 " convert mds to rtf
 augroup markdown
   autocmd!
-  autocmd BufWritePost *.md !pandoc -s <afile> -o <afile>:t:r.rtf
+  autocmd BufWritePost *.md call s:pan()
 augroup END
 
 " sets a new command Q to just q.
@@ -66,6 +81,10 @@ command! Q q
 
 " sets command W to just w.
 command! W w
+
+" set command T to tabedit
+nmap <leader>te :tabedit 
+nnoremap <leader><leader> :tabnext<CR>
 
 " script abbreviations
 iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
