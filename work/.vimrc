@@ -16,6 +16,8 @@ nmap j gj
 " copy up to and including next period. Use this instead of ). ) includes a
 " whitespace after the next period.
 nmap ys yf.
+" change sentence, do not overwrite period.
+nmap cs ct.
 " hotkey toggle tab expansion for files that require spaces and files that require tabs.
 nmap <leader>t :set expandtab!
 
@@ -101,9 +103,7 @@ set shiftround
 
 set wrap
 set linebreak
-set columns=80
+" set columns=80
 
 " netrw browser customization
-" let g:netrw_browse_split = 2
 let g:netrw_liststyle = 3
-let g:netrw_winsize = 25
