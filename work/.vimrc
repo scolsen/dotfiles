@@ -1,5 +1,5 @@
 " color
-color zellsen
+color minimal
 
 " leader must be typed before executing personal commands.
 let mapleader = " "
@@ -20,6 +20,7 @@ nmap ys yf.
 nmap cs ct.
 " hotkey toggle tab expansion for files that require spaces and files that require tabs.
 nmap <leader>t :set expandtab!
+nmap <leader>f :Goyo
 
 " imap
 imap fj <esc>
@@ -78,6 +79,11 @@ augroup markdown
   autocmd BufWritePost *.md call s:pan()
 augroup END
 
+augroup lisps
+  autocmd!
+  autocmd BufRead,BufNewFile *.{lisp,lsp,clj,cl} setlocal textwidth=80
+augroup END
+
 " sets a new command Q to just q.
 command! Q q
 
@@ -101,9 +107,20 @@ set softtabstop=2
 set shiftwidth=4
 set shiftround
 
+" Open gloabl search results in a temporary buffer
+command! -nargs=? Find let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
+" Yank all in place.
+command! -nargs=? GYank let @a='' | execute 'g/<args>/y A' | execute 'g/<args>/d'
+" Register paste
+nmap <leader>p "ap
+
 set wrap
-set linebreak
 " set columns=80
 
 " netrw browser customization
 let g:netrw_liststyle = 3
+
+" Goyo settings
+let g:goyo_width=120
+
+execute pathogen#infect()
