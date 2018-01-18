@@ -1,5 +1,5 @@
 " color
-color zellsen
+color minimal
 
 " soft wrap
 set wrap linebreak nolist
@@ -18,11 +18,9 @@ nmap k gk
 nmap j gj
 nmap <leader>s ]s
 nmap ys yf.
+nmap cs ct.
 nmap <leader>c :vsp ~/.vim/citations<RETURN>
-
-" open nerdtree
-nmap <leader>t :NERDTreeToggle<CR>
-
+nmap <leader>t :set expandtab!
 
 " insert mode mappings
 imap fj <esc>
@@ -34,6 +32,7 @@ imap <expr> ;p getreg('')
 vmap <leader> $
 vmap fj <esc>
 vmap <BS> <DEL>
+vmap s /\./e<CR>
 
 " vim markdown mappings.
 
@@ -60,10 +59,25 @@ vnoremap ` <esc>`>a`<esc>`<i`<esc>gv2l
 vnoremap [ <esc>`>a]()<esc>`<i[<esc>gv2l
 
 "Autocmds for md
+function! s:pan()
+  let result=search('pandocTargets:')
+  if result > 0  
+    let line=getline(result)
+    let targets = split(line)[1:]
+  else 
+    echom "No pandocTargets: YAML front matter found."
+    return 1
+  endif
+  echom "Converting to: " . join(targets, ', ')
+  for target in targets
+    execute '!pandoc -s <afile> -o <afile>:t:r.' . target
+  endfor
+endfunction
+
 " convert mds to rtf
 augroup markdown
   autocmd!
-  autocmd BufWritePost *.md !pandoc -s <afile> -o <afile>:t:r.rtf
+  autocmd BufWritePost *.md call s:pan()
 augroup END
 
 " sets a new command Q to just q. 
@@ -74,9 +88,18 @@ command! W w
 
 " abbreviation
 iab jekq <p<SPACE>class="quote"<SPACE>id="q:n"><CR><TAB><sup<SPACE>id="fnref:n"><CR><TAB><TAB><a<SPACE>href="#fn:n"<SPACE>class="footnote"><CR><TAB><TAB></a><CR><TAB></sup><CR></p><CR>><SPACE>**<a<SPACE>id="fn:n"<SPACE>href="#q:n"></a>**
-iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
 iab <expr> ;d strftime("%F %H:%M:%S")
 iab ;e scg.olsen@gmail.com
+" script abbreviations
+iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
+iab rby #!/usr/bin/env<SPACE>ruby
+iab nde #!/usr/bin/env<SPACE>node
+iab bsh #!/usr/bin/env bash
+iab lsp #!/usr/bin/env clisp
+
+" set command T to tabedit
+nmap <leader>te :tabedit 
+nnoremap <leader><leader> :tabnext<CR>
 
 " set tabs to spaces 
 set tabstop=8
@@ -98,7 +121,3 @@ set statusline=%f\ -\ %l
 
 " Customize Dir Explorer (netrw) settings
 let g:netrw_liststyle = 3
-
-" When opening a file in netrw, open in a vert split
-" let g:netrw_browse_split = 2
-
