@@ -1,6 +1,9 @@
 " color
 color minimal
 
+" status line
+set statusline=λ\ %=%f\ %y\ line:%l\ column:%c
+
 " leader must be typed before executing personal commands.
 let mapleader = " "
 
@@ -90,6 +93,14 @@ command! Q q
 " sets command W to just w.
 command! W w
 
+" call shortcut
+command! -nargs=* Fu call Caller(<f-args>)
+
+" caller function
+function! Caller(func, arg)
+  execute "call " . a:func . "(" . a:arg . ")" 
+endfunction
+
 " set command T to tabedit
 nmap <leader>te :tabedit 
 nnoremap <leader><leader> :tabnext<CR>
@@ -109,8 +120,8 @@ set shiftround
 
 " Open gloabl search results in a temporary buffer
 command! -nargs=? Find let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
-" Yank all in place.
-command! -nargs=? GYank let @a='' | execute 'g/<args>/y A' | execute 'g/<args>/d'
+" Global Yank all in place.
+command! -nargs=? Gy let @a='' | execute 'g/<args>/y A' | execute 'g/<args>/d'
 " Register paste
 nmap <leader>p "ap
 
