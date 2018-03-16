@@ -48,4 +48,9 @@ hi Folded		guifg=#424242		guifg=#424242		ctermfg=black		ctermfg=black
 hi FoldColumn	guifg=#424242		guifg=#424242	ctermfg=black		ctermfg=black
 hi cIf0			guifg=#424242			ctermfg=black
 
-
+" haskell specific
+hi Structure ctermfg=magenta
+hi Include ctermfg=black
+hi hsOperator ctermfg=darkmagenta
+hi typeDef ctermfg=darkmagenta
+hi SpecialComment ctermfg=darkmagenta
