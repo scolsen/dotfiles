@@ -1,107 +1,7 @@
-" color
-color minimal
-
-" soft wrap
+" *Options*
+set statusline=λ\ %=%f\ %y\ line:%l\ column:%c
 set wrap linebreak nolist
-
-" map leader must be entered before certain commands
-let mapleader = " "
-
-"normal mode mappings
-nmap 0 ^
-nmap <leader>g <c-w><c-w>
-nmap <leader>vr :sp $MYVIMRC
-nmap <leader>vi :vnew $MYVIMRC
-nmap <leader>so :source $MYVIMRC
-nmap <leader>n :set number!<RETURN>
-nmap k gk
-nmap j gj
-nmap <leader>s ]s
-nmap ys yf.
-nmap cs ct.
-nmap <leader>c :vsp ~/.vim/citations<RETURN>
-nmap <leader>t :set expandtab!
-
-" insert mode mappings
-imap fj <esc>
-" short paste
-imap <expr> ;p getreg('')
-
-" visual mode mappings
-" quick select line
-vmap <leader> $
-vmap fj <esc>
-vmap <BS> <DEL>
-vmap s /\./e<CR>
-
-" vim markdown mappings.
-
-" normal mode
-nmap * i*<esc>ea*<esc>
-nmap _ i_<esc>ea_<esc>
-nmap ` i`<esc>ea`<esc>
-nmap [ i[<esc>ea]()<esc>
-nmap > 0i> <esc>
-nmap ;- i---<CR><CR>---<esc>ki
-nmap ;y ;-
-nmap ;1 i#<space>
-nmap ;2 i##<space>
-nmap ;3 i###<space>
-nmap ;4 i####<space>
-nmap ;5 i#####<space>
-nmap ;6 i######<space>
-
-" visual mode
-" vmap * c*<C-R>"*<esc>
-vnoremap * <esc>`>a*<esc>`<i*<esc>gv2l
-vnoremap _ <esc>`>a_<esc>`<i_<esc>gv2l
-vnoremap ` <esc>`>a`<esc>`<i`<esc>gv2l
-vnoremap [ <esc>`>a]()<esc>`<i[<esc>gv2l
-
-"Autocmds for md
-function! s:pan()
-  let result=search('pandocTargets:')
-  if result > 0  
-    let line=getline(result)
-    let targets = split(line)[1:]
-  else 
-    echom "No pandocTargets: YAML front matter found."
-    return 1
-  endif
-  echom "Converting to: " . join(targets, ', ')
-  for target in targets
-    execute '!pandoc -s <afile> -o <afile>:t:r.' . target
-  endfor
-endfunction
-
-" convert mds to rtf
-augroup markdown
-  autocmd!
-  autocmd BufWritePost *.md call s:pan()
-augroup END
-
-" sets a new command Q to just q. 
-command! Q q
-
-" sets command W to just w.
-command! W w
-
-" abbreviation
-iab jekq <p<SPACE>class="quote"<SPACE>id="q:n"><CR><TAB><sup<SPACE>id="fnref:n"><CR><TAB><TAB><a<SPACE>href="#fn:n"<SPACE>class="footnote"><CR><TAB><TAB></a><CR><TAB></sup><CR></p><CR>><SPACE>**<a<SPACE>id="fn:n"<SPACE>href="#q:n"></a>**
-iab <expr> ;d strftime("%F %H:%M:%S")
-iab ;e scg.olsen@gmail.com
-" script abbreviations
-iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
-iab rby #!/usr/bin/env<SPACE>ruby
-iab nde #!/usr/bin/env<SPACE>node
-iab bsh #!/usr/bin/env bash
-iab lsp #!/usr/bin/env clisp
-
-" set command T to tabedit
-nmap <leader>te :tabedit 
-nnoremap <leader><leader> :tabnext<CR>
-
-" set tabs to spaces 
+set hlsearch
 set tabstop=8
 set expandtab
 set softtabstop=2
@@ -109,15 +9,108 @@ set shiftwidth=2
 set shiftround
 set autoindent
 set smartindent
+set spell
 
-" Enable syntax
 syntax enable
+filetype plugin on
+color 1989
 
-" Set spell check
-setlocal spell
+" *Keybindings*
+let mapleader = " "
 
-" Customize statusline
-set statusline=%f\ -\ %l
+" NORMAL Mode
+" Window Navigation
+nmap <leader>j <c-w>j
+nmap <leader>k <c-w>k
+nmap <leader>l <c-w>l
+nmap <leader>h <c-w>h
 
-" Customize Dir Explorer (netrw) settings
+nmap k gk
+nmap j gj
+nmap 0 ^
+
+nmap <leader>vr :sp $MYVIMRC
+nmap <leader>vi :vnew $MYVIMRC
+nmap <leader>so :source $MYVIMRC
+nmap <leader>n :set number!<RETURN>
+nmap <leader>s ]s
+nmap <leader>c :vs ~/.vim/citations<RETURN>
+nmap <leader>t :set expandtab!
+nmap <leader>b :Vex<RETURN>
+nmap <leader>L :set list!<RETURN>
+nmap <leader>m `m
+nmap <leader>d "_d
+nmap <leader>te :tabedit 
+nnoremap <leader><leader> :tabnext<CR>
+
+" INSERT Mode
+imap fj <esc>
+
+" VISUAL Mode
+vmap fj <esc>
+vmap <leader> $
+vmap <BS> <DEL>
+vmap s /\./e<CR>
+
+" *Packages*
+" Package management with minpac
+packadd minpac
+call minpac#init()
+
+call minpac#add('k-takata/minpac', {'type':'opt'})
+call minpac#add('vim-airline/vim-airline')
+call minpac#add('tpope/vim-fugitive')
+call minpac#add('rizzatti/dash.vim')
+call minpac#add('flazz/vim-colorschemes')
+call minpac#add('vim-syntastic/syntastic')
+call minpac#add('sjl/clam.vim')
+call minpac#add('idris-hackers/idris-vim')
+
+" *Functions*
+" macOS tagging functions
+function! s:getOS()
+  let g:os = substitute(system('uname'), '\n', '', '')
+endfunction
+
+function! s:setTag(tag)
+  call s:getOS()
+  if g:os != "Darwin"
+    echom "Tagging only supported on macos systems."  
+  else
+    execute '!xattr -w com.apple.metadata:_kMDItemUserTags ' . a:tag . ' ' . expand('%') 
+  endif
+endfunction
+
+function! s:listTags()
+  call s:getOS()
+  if g:os != "Darwin"
+    echom "Tagging only supported on macos systems."  
+  else
+    execute 'new | setlocal buftype=nofile bufhidden=hide noswapfile | r !mdls -name kMDItemUserTags -raw ' . expand('%') 
+  endif
+endfunction
+
+" *Commands*
+command! Q q
+command! W w
+command! Tags call s:listTags()
+command! Packup call minpac#update()
+command! Packclean call minpac#clean()
+
+" *Abbreviations*
+iab jekq <p<SPACE>class="quote"<SPACE>id="q:n"><CR><TAB><sup<SPACE>id="fnref:n"><CR><TAB><TAB><a<SPACE>href="#fn:n"<SPACE>class="footnote"><CR><TAB><TAB></a><CR><TAB></sup><CR></p><CR>><SPACE>**<a<SPACE>id="fn:n"<SPACE>href="#q:n"></a>**
+iab <expr> ;d strftime("%F %H:%M:%S")
+iab ;e scg.olsen@gmail.com
+
+" script abbreviations
+iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
+iab rby #!/usr/bin/env<SPACE>ruby
+iab nde #!/usr/bin/env<SPACE>node
+iab bsh #!/usr/bin/env bash
+iab lsp #!/usr/bin/env clisp
+
+" *Netrw Settings*
 let g:netrw_liststyle = 3
+let g:netrw_browse_split = 2
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
