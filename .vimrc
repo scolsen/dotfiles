@@ -10,10 +10,14 @@ set shiftround
 set autoindent
 set smartindent
 set spell
+" set textwidth=80
 
 syntax enable
 filetype plugin on
-color 1989
+color gruvbox
+set background=dark
+let g:gruvbox_contrast_dark='soft'
+
 
 " *Keybindings*
 let mapleader = " "
@@ -65,6 +69,11 @@ call minpac#add('flazz/vim-colorschemes')
 call minpac#add('vim-syntastic/syntastic')
 call minpac#add('sjl/clam.vim')
 call minpac#add('idris-hackers/idris-vim')
+call minpac#add('tpope/vim-fireplace')
+call minpac#add('mhinz/vim-signify')
+call minpac#add('junegunn/goyo.vim')
+call minpac#add('rhysd/vim-crystal')
+
 
 " *Functions*
 " macOS tagging functions
@@ -114,3 +123,14 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
+
+let g:lite_dfm_normal_bg_cterm = 0
+
+" Gruvbox color overrides
+hi! link markdownH1 GruvboxFg1
+hi! link markdownH2 GruvboxFg1
+hi! link markdownH3 GruvboxFg1
+hi! link markdownH4 GruvboxFg1
+hi! link markdownH5 GruvboxFg1
+hi! link markdownH6 GruvboxFg1
+hi! link markdownHeadingDelimiter GruvboxFg1
