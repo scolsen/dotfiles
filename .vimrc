@@ -10,14 +10,17 @@ set shiftround
 set autoindent
 set smartindent
 set spell
-" set textwidth=80
+set textwidth=80
 
 syntax enable
 filetype plugin on
-color gruvbox
-set background=dark
-let g:gruvbox_contrast_dark='soft'
 
+" Color
+color bernhard
+
+" Print options
+set printheader=%<%f\|\ Lines\:\ %L\ Page\:\ %N
+set printoptions=number:n,wrap:n,left:24pc,right:1pc,paper:letter
 
 " *Keybindings*
 let mapleader = " "
@@ -29,9 +32,11 @@ nmap <leader>k <c-w>k
 nmap <leader>l <c-w>l
 nmap <leader>h <c-w>h
 
+" Leaderless bindings.
 nmap k gk
 nmap j gj
 nmap 0 ^
+nmap : q:i
 
 nmap <leader>vr :sp $MYVIMRC
 nmap <leader>vi :vnew $MYVIMRC
@@ -62,18 +67,19 @@ packadd minpac
 call minpac#init()
 
 call minpac#add('k-takata/minpac', {'type':'opt'})
-call minpac#add('vim-airline/vim-airline')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('rizzatti/dash.vim')
 call minpac#add('flazz/vim-colorschemes')
-call minpac#add('vim-syntastic/syntastic')
-call minpac#add('sjl/clam.vim')
-call minpac#add('idris-hackers/idris-vim')
-call minpac#add('tpope/vim-fireplace')
 call minpac#add('mhinz/vim-signify')
 call minpac#add('junegunn/goyo.vim')
-call minpac#add('rhysd/vim-crystal')
-
+call minpac#add('sjl/gundo.vim')
+call minpac#add('scolsen/wurm')
+call minpac#add('scolsen/fleur')
+call minpac#add('scolsen/bernhard')
+call minpac#add('scolsen/lamb')
+"call minpac#add('scolsen/gadamer')
+call minpac#add('google/vim-maktaba')
+call minpac#add('google/vim-glaive')
+call minpac#add('itchyny/dictionary.vim')
+call minpac#add('hellerve/carp-vim')
 
 " *Functions*
 " macOS tagging functions
@@ -105,18 +111,7 @@ command! W w
 command! Tags call s:listTags()
 command! Packup call minpac#update()
 command! Packclean call minpac#clean()
-
-" *Abbreviations*
-iab jekq <p<SPACE>class="quote"<SPACE>id="q:n"><CR><TAB><sup<SPACE>id="fnref:n"><CR><TAB><TAB><a<SPACE>href="#fn:n"<SPACE>class="footnote"><CR><TAB><TAB></a><CR><TAB></sup><CR></p><CR>><SPACE>**<a<SPACE>id="fn:n"<SPACE>href="#q:n"></a>**
-iab <expr> ;d strftime("%F %H:%M:%S")
-iab ;e scg.olsen@gmail.com
-
-" script abbreviations
-iab hsk #!/usr/bin/env<SPACE>stack<CR>--<SPACE>stack<SPACE>--resolver<SPACE>lts-9.11<SPACE>script<CR>
-iab rby #!/usr/bin/env<SPACE>ruby
-iab nde #!/usr/bin/env<SPACE>node
-iab bsh #!/usr/bin/env bash
-iab lsp #!/usr/bin/env clisp
+command! RemoveTrailingWhitespace %s/\s\+$//
 
 " *Netrw Settings*
 let g:netrw_liststyle = 3
@@ -126,11 +121,11 @@ let g:netrw_winsize = 25
 
 let g:lite_dfm_normal_bg_cterm = 0
 
-" Gruvbox color overrides
-hi! link markdownH1 GruvboxFg1
-hi! link markdownH2 GruvboxFg1
-hi! link markdownH3 GruvboxFg1
-hi! link markdownH4 GruvboxFg1
-hi! link markdownH5 GruvboxFg1
-hi! link markdownH6 GruvboxFg1
-hi! link markdownHeadingDelimiter GruvboxFg1
+" Lisp goodness
+" au BufReadPost,BufNewFile *.lisp,*.scm,*.carp,*.clj,*.rkt color lamb
+
+" Load minpac plugins
+packloadall
+
+" Load maktaba plugins
+call maktaba#plugin#Detect()
